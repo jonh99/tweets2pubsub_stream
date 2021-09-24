@@ -16,7 +16,7 @@ def write_to_pubsub(data):
     try:
             
         # publish to the topic, don't forget to encode everything at utf8!
-        publisher.publish(topic_path, data({
+        publisher.publish(topic_path, data=json.dumps({
             "text": data["text"],
             "id": data["id"]
             #,"posted_at": datetime.datetime.fromtimestamp(data["created_at"]).strftime('%Y-%m-%d %H:%M:%S')
