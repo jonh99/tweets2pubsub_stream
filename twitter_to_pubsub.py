@@ -7,26 +7,15 @@ import datetime
 from google.cloud import pubsub_v1
 
 #configure pubsub connection
-publisher = pubsub_v1.PublisherClient()
+client = pubsub_v1.PublisherClient()
 
-topic_path = publisher.topic_path('stream2bq', 'tweet-stream1')
+topic = client.topic_path('stream2bq', 'tweet-stream1')
+
+def publish(arg):
+    client.publish(topic, arg)
+
 
 #write output to pubsub function
-def write_to_pubsub(data):
-    try:
-            
-        # publish to the topic, don't forget to encode everything at utf8!
-        publisher.publish(topic_path, data=json.dumps({
-        
-            "text": data["text"],
-            "id": data["id"]
-
-            #,"posted_at": datetime.datetime.fromtimestamp(data["created_at"]).strftime('%Y-%m-%d %H:%M:%S')
-        }).encode("utf-8"), tweet_id=str(data["id"]).encode("utf-8"))
-        
-    except Exception as e:
-        print(e)
-        raise
 
 #------------------------------------------END OF PUBSUB CODE-----------------------------
 
@@ -115,7 +104,9 @@ def get_stream(set):
     for response_line in response.iter_lines():
         if response_line:   
             json_response = json.loads(response_line)
-            write_to_pubsub(json.dumps(json_response))
+            dumped_json = json.dumps(json_response)
+            publish(dumped_json)
+            print('published message to {topic}.')
             
     
             
