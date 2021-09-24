@@ -11,11 +11,12 @@ client = pubsub_v1.PublisherClient()
 
 topic = client.topic_path('stream2bq', 'tweet-stream1')
 
+#write output to pubsub 
 def publish(arg):
     client.publish(topic, arg)
 
 
-#write output to pubsub function
+
 
 #------------------------------------------END OF PUBSUB CODE-----------------------------
 
