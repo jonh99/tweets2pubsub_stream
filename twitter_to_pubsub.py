@@ -13,7 +13,7 @@ topic = client.topic_path('stream2bq', 'tweet-stream1')
 
 #write output to pubsub 
 def publish(arg):
-    client.publish(topic.encode(), arg.encode())
+    client.publish(topic, arg.encode())
 
 
 
@@ -107,7 +107,7 @@ def get_stream(set):
             json_response = json.loads(response_line)
             dumped_json = json.dumps(json_response, indent=4)
             publish(dumped_json)
-            print('published message to {topic}.')
+            print('published message to pubsub.')
             
     
             
