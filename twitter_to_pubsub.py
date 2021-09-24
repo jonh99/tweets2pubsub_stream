@@ -17,15 +17,14 @@ def write_to_pubsub(data):
             
         # publish to the topic, don't forget to encode everything at utf8!
         publisher.publish(topic_path, data=json.dumps({
+        
             "text": data["text"],
             "id": data["id"]
+
             #,"posted_at": datetime.datetime.fromtimestamp(data["created_at"]).strftime('%Y-%m-%d %H:%M:%S')
         }).encode("utf-8"), tweet_id=str(data["id"]).encode("utf-8"))
         
     except Exception as e:
-        if isinstance(data, dict):
-    # just one result, wrap it in a single-element list
-            latest_result = [data]
         print(e)
         raise
 
@@ -114,14 +113,10 @@ def get_stream(set):
         )
 
     for response_line in response.iter_lines():
-        if response_line:
-            try:    
-                json_response = json.loads(response_line)
-                write_to_pubsub(json.dumps(json_response))
-            except:
-                if isinstance(latest_result, dict):
-    # just one result, wrap it in a single-element list
-                    latest_result = [latest_result]
+        if response_line:   
+            json_response = json.loads(response_line)
+            write_to_pubsub(json.dumps(json_response))
+            
     
             
     #line above was formerly a combo of the two below
