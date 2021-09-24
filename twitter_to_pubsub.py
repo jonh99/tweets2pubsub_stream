@@ -13,7 +13,7 @@ topic = client.topic_path('stream2bq', 'tweet-stream1')
 
 #write output to pubsub 
 def publish(arg):
-    client.publish(topic, arg)
+    client.publish(topic.encode(), arg.encode())
 
 
 
