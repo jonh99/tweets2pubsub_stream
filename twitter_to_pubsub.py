@@ -104,7 +104,7 @@ def get_stream(set):
     for response_line in response.iter_lines():
         if response_line:   
             json_response = json.loads(response_line)
-            dumped_json = json.dumps(json_response)
+            dumped_json = json.dumps(json_response, indent=4)
             publish(dumped_json)
             print('published message to {topic}.')
             
@@ -124,12 +124,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-#need to put this into exception handler:
-'''
-if isinstance(latest_result, dict):
-    # just one result, wrap it in a single-element list
-    latest_result = [latest_result]
-
-'''
