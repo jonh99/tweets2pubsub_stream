@@ -112,8 +112,13 @@ def get_stream(set):
 
     for response_line in response.iter_lines():
         if response_line:
-            json_response = json.loads(response_line)
-            write_to_pubsub(json.dumps(json_response))    
+            try:    
+                json_response = json.loads(response_line)
+                write_to_pubsub(json.dumps(json_response))
+            except:
+                if isinstance(latest_result, dict):
+    # just one result, wrap it in a single-element list
+                    latest_result = [latest_result]
     
             
     #line above was formerly a combo of the two below
@@ -130,3 +135,12 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+#need to put this into exception handler:
+'''
+if isinstance(latest_result, dict):
+    # just one result, wrap it in a single-element list
+    latest_result = [latest_result]
+
+'''
