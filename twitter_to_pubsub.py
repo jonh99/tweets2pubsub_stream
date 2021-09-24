@@ -23,6 +23,9 @@ def write_to_pubsub(data):
         }).encode("utf-8"), tweet_id=str(data["id"]).encode("utf-8"))
         
     except Exception as e:
+        if isinstance(data, dict):
+    # just one result, wrap it in a single-element list
+            latest_result = [data]
         print(e)
         raise
 
